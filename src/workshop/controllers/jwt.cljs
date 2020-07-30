@@ -1,0 +1,21 @@
+(ns workshop.controllers.jwt
+  (:require [keechma.next.controller :as ctrl]
+            [hodgepodge.core :refer [local-storage get-item set-item remove-item]]
+            [workshop.settings :refer [jwt-ls-name]]))
+
+(derive :jwt :keechma/controller)
+
+(defmethod ctrl/start :jwt [_ _ _]
+           (get-item local-storage jwt-ls-name))
+
+(defmethod ctrl/handle :jwt [{:keys [state*]} cmd payload]
+           (case cmd
+                 :clear
+                 (do (remove-item local-storage jwt-ls-name)
+                   (reset! state* nil))
+
+                 :login
+                 (let [jwt (:token payload)]
+                   (set-item local-storage jwt-ls-name jwt)
+                   (reset! state* jwt))
+                 nil))
