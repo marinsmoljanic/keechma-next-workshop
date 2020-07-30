@@ -1,0 +1,7 @@
+/public/js/
+*.iml
+.cpcache
+.shadow-cljs
+node_modules/
+.clj-kondo/.cache/
+.idea/
