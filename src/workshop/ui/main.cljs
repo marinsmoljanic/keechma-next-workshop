@@ -17,18 +17,6 @@
             [workshop.ui.pages.mailbox :refer [MailboxPage]]
             ))
 
-(defnc UserPages [{:keys [reply?] :as props}]
-  (let [role (use-sub props :role)]
-    (if (= role :guest)
-      (dispatch props :router :redirect! {:page "login"})
-      (<>
-       ($ Sidebar)
-       ($ Messages)
-       ($ Compose)
-       (when reply?
-             ($ Modal {& props}))
-       ))))
-
 (defnc MainRenderer [props]
   (let [route (use-sub props :router)
         reply? (:reply route)
